@@ -917,7 +917,9 @@ defmodule Task do
 
   That ensures that if the task completes after the `timeout` but before `shutdown/1`
   has been called, you will still get the result, since `shutdown/1` is designed to
-  handle this case and return the result.
+  handle this case and return the result. The `timeout` value used by `yield/2`
+  must be less than the default `timeout` of `5000` in `shutdown/1`,
+  or the `timeout` passed to `shutdown/2` if used instead.
   """
   @spec yield(t, timeout) :: {:ok, term} | {:exit, term} | nil
   def yield(%Task{ref: ref, owner: owner} = task, timeout \\ 5000) when is_timeout(timeout) do
